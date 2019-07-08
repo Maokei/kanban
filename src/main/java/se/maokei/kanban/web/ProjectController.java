@@ -1,4 +1,4 @@
-package se.maokei.kanban.controller;
+package se.maokei.kanban.web;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
