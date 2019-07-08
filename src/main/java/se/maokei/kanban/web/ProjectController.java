@@ -1,11 +1,12 @@
-package se.maokei.kanban.web;
+package se.maokei.kanban.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,8 @@ import se.maokei.kanban.domain.Project;
 import se.maokei.kanban.services.ProjectService;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/project")
@@ -23,9 +26,13 @@ public class ProjectController {
     @PostMapping("")
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
         if(result.hasErrors()) {
-            return new ResponseEntity<String>("Invalid project object", HttpStatus.BAD_REQUEST);
+            Map<String, String> errorMap = new HashMap<>();
+            for(FieldError error: result.getFieldErrors()) {
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<Map<String, String>>(errorMap, HttpStatus.BAD_REQUEST);
         }
-        projectService.saveOrUpdateProject(project);
-        return new ResponseEntity<Project>(project, HttpStatus.CREATED);
+        Project newProject = this.projectService.saveOrUpdateProject(project);
+        return new ResponseEntity<Project>(newProject, HttpStatus.CREATED);
     }
 }
