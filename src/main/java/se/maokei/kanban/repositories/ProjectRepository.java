@@ -6,4 +6,5 @@ import se.maokei.kanban.domain.Project;
 
 @Repository
 public interface ProjectRepository extends CrudRepository<Project, Long> {
+    Project findByName(String name);
 }
