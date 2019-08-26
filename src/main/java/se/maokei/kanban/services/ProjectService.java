@@ -6,8 +6,11 @@ import se.maokei.kanban.domain.Project;
 import se.maokei.kanban.exceptions.ProjectIdException;
 import se.maokei.kanban.repositories.ProjectRepository;
 
-//import java.util.Optional;
+import java.util.Optional;
 
+/**
+ * ProjectService
+ * */
 @Service
 public class ProjectService {
     @Autowired
@@ -23,5 +26,16 @@ public class ProjectService {
                     "' already exists");
         }
         //Optional<Project> localProject = this.projectRepository.findById(project.getId());
+    }
+
+
+    public Project findProjectByIdentifier(String projectId) {
+        Optional<Project> oProject = Optional.ofNullable(
+                projectRepository.findByProjectIdentifier(projectId.toUpperCase())
+        );
+        oProject.orElseThrow(
+                () -> new ProjectIdException("No project found with identifier: " + projectId.toUpperCase())
+        );
+        return oProject.get();
     }
 }
