@@ -38,4 +38,8 @@ public class ProjectService {
         );
         return oProject.get();
     }
+
+    public Iterable<Project> findAllProjects() {
+        return this.projectRepository.findAll();
+    }
 }

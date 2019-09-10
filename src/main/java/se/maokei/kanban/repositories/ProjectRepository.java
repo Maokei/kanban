@@ -8,4 +8,7 @@ import se.maokei.kanban.domain.Project;
 public interface ProjectRepository extends CrudRepository<Project, Long> {
     Project findByName(String name);
     Project findByProjectIdentifier(String projectIdentifier);
+
+    @Override
+    Iterable<Project> findAll();
 }
