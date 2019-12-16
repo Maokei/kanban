@@ -9,11 +9,9 @@ import se.maokei.kanban.domain.Project;
 import se.maokei.kanban.repositories.ProjectRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 
