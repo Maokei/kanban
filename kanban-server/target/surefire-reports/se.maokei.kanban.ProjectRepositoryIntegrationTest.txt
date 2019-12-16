@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: se.maokei.kanban.ProjectRepositoryIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 1.181 s <<< FAILURE! - in se.maokei.kanban.ProjectRepositoryIntegrationTest
+saveProject(se.maokei.kanban.ProjectRepositoryIntegrationTest)  Time elapsed: 0.001 s  <<< ERROR!
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'se.maokei.kanban.ProjectRepositoryIntegrationTest': Unsatisfied dependency expressed through field 'projectService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'se.maokei.kanban.services.ProjectService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'se.maokei.kanban.services.ProjectService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
+findProjectByName(se.maokei.kanban.ProjectRepositoryIntegrationTest)  Time elapsed: 0.001 s  <<< ERROR!
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'se.maokei.kanban.ProjectRepositoryIntegrationTest': Unsatisfied dependency expressed through field 'projectService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'se.maokei.kanban.services.ProjectService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'se.maokei.kanban.services.ProjectService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+
