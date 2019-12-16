@@ -1,0 +1,9 @@
+se/maokei/kanban/exceptions/ProjectIdException.class
+se/maokei/kanban/services/ProjectService.class
+se/maokei/kanban/web/ProjectController.class
+se/maokei/kanban/services/MapValidationErrorService.class
+se/maokei/kanban/exceptions/ProjectIdExceptionResponse.class
+se/maokei/kanban/KanbanApplication.class
+se/maokei/kanban/repositories/ProjectRepository.class
+se/maokei/kanban/domain/Project.class
+se/maokei/kanban/exceptions/CustomResponseEntityExceptionHandler.class
