@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>se.maokei</groupId>
-	<artifactId>kanban</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>kanban</name>
+	<artifactId>kanban-server</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<name>kanban-server</name>
 	<description>Kanban tool</description>
 
 	<properties>
