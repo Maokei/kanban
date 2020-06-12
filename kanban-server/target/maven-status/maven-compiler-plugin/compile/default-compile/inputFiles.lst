@@ -1,9 +1,0 @@
-/home/maokei/Documents/kanban/kanban-server/src/main/java/se/maokei/kanban/domain/Project.java
-/home/maokei/Documents/kanban/kanban-server/src/main/java/se/maokei/kanban/repositories/ProjectRepository.java
-/home/maokei/Documents/kanban/kanban-server/src/main/java/se/maokei/kanban/exceptions/ProjectIdExceptionResponse.java
-/home/maokei/Documents/kanban/kanban-server/src/main/java/se/maokei/kanban/services/ProjectService.java
-/home/maokei/Documents/kanban/kanban-server/src/main/java/se/maokei/kanban/KanbanApplication.java
-/home/maokei/Documents/kanban/kanban-server/src/main/java/se/maokei/kanban/exceptions/CustomResponseEntityExceptionHandler.java
-/home/maokei/Documents/kanban/kanban-server/src/main/java/se/maokei/kanban/web/ProjectController.java
-/home/maokei/Documents/kanban/kanban-server/src/main/java/se/maokei/kanban/exceptions/ProjectIdException.java
-/home/maokei/Documents/kanban/kanban-server/src/main/java/se/maokei/kanban/services/MapValidationErrorService.java
