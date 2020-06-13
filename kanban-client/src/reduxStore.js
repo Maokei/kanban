@@ -29,6 +29,6 @@ if(window.navigator.userAgent.includes("Chrome")) {
     );
 }
 
-epicMiddleware.run(epics);
+//epicMiddleware.run(epics);
 
 export default store;
