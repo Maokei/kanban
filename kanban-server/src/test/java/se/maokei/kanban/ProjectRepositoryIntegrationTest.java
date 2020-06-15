@@ -2,6 +2,7 @@ package se.maokei.kanban;
 
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
@@ -25,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 public class ProjectRepositoryIntegrationTest {
     @Autowired
     EntityManager entityManager;
-    @Autowired
     ProjectService projectService;
     @Autowired
     ProjectRepository projectRepository;
@@ -38,6 +38,7 @@ public class ProjectRepositoryIntegrationTest {
         project.setName("A project");
         this.projectRepository.save(project);
         Assert.assertNotNull(projectRepository.findAll());
+        projectRepository.deleteAll();
     }
 
     @Test
@@ -45,7 +46,7 @@ public class ProjectRepositoryIntegrationTest {
         String projectName = "testProject";
         Project newProject = new Project();
         newProject.setName(projectName);
-        newProject.setProjectIdentifier("MXMX5");
+        newProject.setProjectIdentifier("MXMG5");
         newProject.setDescription("Test project");
 
         projectService.saveOrUpdateProject(newProject);
@@ -53,9 +54,12 @@ public class ProjectRepositoryIntegrationTest {
 
         Project foundProject = projectRepository.findByName(projectName);
         System.out.println(foundProject);
-        //Assert.assertTrue(foundProject.getName())
 
-        //assertThat(foundProject.getName()).isEqualTo(projectName);
         assertEquals(foundProject.getName(), projectName);
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        this.projectService = new ProjectService();
     }
 }

@@ -1,4 +1,4 @@
-import 'rxjs';
+/*import rxjs from "rxjs";
 import { combineEpics, ofType } from 'redux-observable';
 import { ajax } from 'rxjs/ajax';
 import { map, mergeMap } from "rxjs/operators";
@@ -23,4 +23,4 @@ const fetchProjectEpic = action$ => action$.pipe(
 
 export default combineEpics(
     fetchProjectEpic
-);
+);*/
