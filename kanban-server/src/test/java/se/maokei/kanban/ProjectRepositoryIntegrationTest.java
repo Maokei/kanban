@@ -46,7 +46,7 @@ public class ProjectRepositoryIntegrationTest {
         String projectName = "testProject";
         Project newProject = new Project();
         newProject.setName(projectName);
-        newProject.setProjectIdentifier("MXMG5");
+        newProject.setProjectIdentifier("MXMG9");
         newProject.setDescription("Test project");
 
         projectService.saveOrUpdateProject(newProject);
