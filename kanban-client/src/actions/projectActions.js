@@ -3,12 +3,12 @@ import { GET_ERRORS } from "./types";
 
 export const createProject = (project, history) => async dispatch => {
     try {
-        const response = axios.post("http://localhost:8080/api/project", project)
+        const res = await axios.post("http://localhost:8080/api/project", project)
         history.push("/dashboard")
-    } catch (error) {
+    } catch (err) {
         dispatch({
             type: GET_ERRORS,
-            payload: error.response.data
+            payload: err.response.data
         });
     }
 }
