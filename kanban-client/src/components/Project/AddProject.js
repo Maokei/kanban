@@ -33,7 +33,7 @@ class AddProject extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const newProject = {
-            projectName: this.state.projectName,
+            name: this.state.name,
             projectIdentifier: this.state.projectIdentifier,
             description: this.state.description,
             start_date: this.state.start_date,
@@ -57,8 +57,8 @@ class AddProject extends Component {
                                         <input type="text"
                                             className={classnames("form-control form-control-lg", {"is-invalid": errors.name})}
                                             placeholder="Project Name"
-                                            name="projectName"
-                                            value={this.state.projectName}
+                                            name="name"
+                                            value={this.state.name}
                                             onChange={this.onChange}
                                         />
                                         {errors.name && (<div className="invalid-feedback">{errors.name}</div>)}

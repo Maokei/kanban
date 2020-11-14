@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, compose} from "redux";
 import { createEpicMiddleware } from 'redux-observable';
 import thunk from "redux-thunk";
 import rootReducer from "./reducers";
-import epics from "./epics";
 
 const initialState = {};
 const epicMiddleware = createEpicMiddleware();
@@ -19,7 +18,7 @@ if(window.navigator.userAgent.includes("Chrome")) {
             window.__REDUX_DEVTOOLS_EXTENSION__()
         )
     );
-}else {
+} else {
     store = createStore(
         rootReducer,
         initialState,
@@ -28,7 +27,5 @@ if(window.navigator.userAgent.includes("Chrome")) {
         )
     );
 }
-
-//epicMiddleware.run(epics);
 
 export default store;
