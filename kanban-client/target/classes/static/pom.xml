@@ -9,7 +9,7 @@
 
     <parent>
         <groupId>se.maokei</groupId>
-        <artifactId>kanban</artifactId>
+        <artifactId>kanban-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
