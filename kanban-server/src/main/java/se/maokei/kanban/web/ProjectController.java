@@ -34,6 +34,12 @@ public class ProjectController {
         return new ResponseEntity<Project>(newProject, HttpStatus.CREATED);
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateProject(@Valid @RequestBody Project project, BindingResult result) {
+
+        return null;
+    }
+
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProjectById(@PathVariable String projectId) {
         Project project = null;
