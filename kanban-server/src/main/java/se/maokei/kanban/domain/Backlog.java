@@ -1,17 +1,19 @@
 package se.maokei.kanban.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 public class Backlog {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer PTSequence = 0;
     private String projectIdentifier;
-    //One to one
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "project_id", nullable = false)
+    @JsonIgnore //Json recursion
+    private Project project;
     //One to many
 
     public Backlog() {
@@ -40,5 +42,13 @@ public class Backlog {
 
     public void setProjectIdentifier(String projectIdentifier) {
         this.projectIdentifier = projectIdentifier;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }
