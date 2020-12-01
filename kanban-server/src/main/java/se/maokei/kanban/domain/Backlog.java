@@ -3,6 +3,8 @@ package se.maokei.kanban.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Backlog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +16,8 @@ public class Backlog {
     @JoinColumn(name = "project_id", nullable = false)
     @JsonIgnore //Json recursion
     private Project project;
-    //One to many
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "backlog")
+    private List<ProjectTask> projectTasks = new ArrayList<>();
 
     public Backlog() {
 
@@ -50,5 +53,13 @@ public class Backlog {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public List<ProjectTask> getProjectTasks() {
+        return projectTasks;
+    }
+
+    public void setProjectTasks(List<ProjectTask> projectTasks) {
+        this.projectTasks = projectTasks;
     }
 }
