@@ -1,5 +1,6 @@
 package se.maokei.kanban.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -11,23 +12,26 @@ public class ProjectTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(updatable = false)
+    @Column(updatable = false, unique = true)
     private String projectSequence;
     @NotNull(message = "Please include a task summary")
     private String summary;
     private String acceptanceCriteria;
     private String status;
     private Integer priority;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date dueDate;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name= "backlog_id", updatable = false, nullable = false)
     @JsonIgnore
     private Backlog backlog;
 
     @Column(updatable = false)
     private String projectIdentifier;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date creadAt;
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updateAt;
 
     @PrePersist

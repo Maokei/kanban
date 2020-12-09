@@ -16,7 +16,8 @@ public class ProjectTaskService {
 
     public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask)  {
         Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
-
+        //TODO handle null pointer if no backlog found
+        projectTask.setBacklog(backlog);
         Integer backlogSequence = backlog.getPTSequence();
         backlogSequence++;
         backlog.setPTSequence(backlogSequence);
@@ -27,9 +28,14 @@ public class ProjectTaskService {
         if (projectTask.getStatus().equals("") || projectTask.getStatus() == null) {
             projectTask.setStatus("TO_DO");
         }
-        if(projectTask.getPriority() == null) {
+        if(projectTask.getPriority() == null || projectTask.getPriority() == 0) { //form 0
             projectTask.setPriority(3);
         }
+
         return projectTaskRepository.save(projectTask);
+    }
+
+    public Iterable<ProjectTask> findBacklogById(String id) {
+        return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
     }
 }
