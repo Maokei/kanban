@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -14,7 +14,7 @@ public class ProjectTask {
     private Long id;
     @Column(updatable = false, unique = true)
     private String projectSequence;
-    @NotNull(message = "Please include a task summary")
+    @NotBlank(message = "Please include a task summary")
     private String summary;
     private String acceptanceCriteria;
     private String status;
