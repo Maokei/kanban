@@ -47,4 +47,9 @@ public class ProjectTaskService {
         }
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
     }
+
+    public ProjectTask findProjectTaskByProjectSequence(String backlogId, String projectTaskId) {
+        //TODO correct backlog?
+        return projectTaskRepository.findByProjectSequence(projectTaskId);
+    }
 }
