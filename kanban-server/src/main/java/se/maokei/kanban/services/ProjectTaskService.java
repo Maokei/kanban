@@ -9,6 +9,8 @@ import se.maokei.kanban.exceptions.ProjectNotFoundException;
 import se.maokei.kanban.repositories.BacklogRepository;
 import se.maokei.kanban.repositories.ProjectTaskRepository;
 
+import java.util.Optional;
+
 @Service
 public class ProjectTaskService {
     @Autowired
@@ -49,7 +51,16 @@ public class ProjectTaskService {
     }
 
     public ProjectTask findProjectTaskByProjectSequence(String backlogId, String projectTaskId) {
-        //TODO correct backlog?
-        return projectTaskRepository.findByProjectSequence(projectTaskId);
+
+        Optional.ofNullable(backlogRepository.findByProjectIdentifier(backlogId))
+                .orElseThrow(() -> new ProjectNotFoundException("Project with ID: '" + backlogId + "' does not exist"));
+
+        ProjectTask projectTask = Optional.ofNullable(projectTaskRepository.findByProjectSequence(projectTaskId))
+                .orElseThrow(() -> new ProjectNotFoundException("Project Task '" + projectTaskId + "' not found"));
+
+        if(!projectTask.getProjectIdentifier().equals(backlogId)) {
+            throw new ProjectNotFoundException("Project Task '"+ projectTaskId +"' does not exist in project: '"+ backlogId);
+        }
+        return projectTask;
     }
 }
