@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.maokei.kanban.domain.Project;
@@ -21,7 +20,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-//@SpringBootTest(classes =  {KanbanApplication.class})
 @ContextConfiguration(classes = {KanbanApplication.class})
 public class ProjectRepositoryIntegrationTest {
     @Autowired
@@ -48,14 +46,9 @@ public class ProjectRepositoryIntegrationTest {
         newProject.setName(projectName);
         newProject.setProjectIdentifier("MXMG9");
         newProject.setDescription("Test project");
+        projectRepository.save(newProject);
 
-        projectService.saveOrUpdateProject(newProject);
-        entityManager.flush();
-
-        Project foundProject = projectRepository.findByName(projectName);
-        System.out.println(foundProject);
-
-        assertEquals(foundProject.getName(), projectName);
+        assertEquals(projectRepository.findByName(projectName).getName(), projectName);
     }
 
     @Before
