@@ -9,6 +9,7 @@ import se.maokei.kanban.exceptions.ProjectNotFoundException;
 import se.maokei.kanban.repositories.BacklogRepository;
 import se.maokei.kanban.repositories.ProjectTaskRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,23 +53,33 @@ public class ProjectTaskService {
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
     }
 
-    public ProjectTask findProjectTaskByProjectSequence(String backlogId, String projectTaskId) {
+    public ProjectTask findProjectTaskByProjectSequence(String projectIdentifier, String projectSequence) {
 
-        Optional.ofNullable(backlogRepository.findByProjectIdentifier(backlogId))
-                .orElseThrow(() -> new ProjectNotFoundException("Project with ID: '" + backlogId + "' does not exist"));
+        Optional.ofNullable(backlogRepository.findByProjectIdentifier(projectIdentifier))
+                .orElseThrow(() -> new ProjectNotFoundException("Project with identifier: '" + projectIdentifier + "' does not exist"));
 
-        ProjectTask projectTask = Optional.ofNullable(projectTaskRepository.findByProjectSequence(projectTaskId))
-                .orElseThrow(() -> new ProjectNotFoundException("Project Task '" + projectTaskId + "' not found"));
+        ProjectTask projectTask = Optional.ofNullable(projectTaskRepository.findByProjectSequence(projectSequence))
+                .orElseThrow(() -> new ProjectNotFoundException("Project Task '" + projectSequence + "' not found"));
 
-        if(!projectTask.getProjectIdentifier().equals(backlogId)) {
-            throw new ProjectNotFoundException("Project Task '"+ projectTaskId +"' does not exist in project: '"+ backlogId);
+        if(!projectTask.getProjectIdentifier().equals(projectIdentifier)) {
+            throw new ProjectNotFoundException("Project Task sequence: '"+ projectSequence +"' does not exist in project: '"+ projectIdentifier);
         }
         return projectTask;
     }
 
-    public ProjectTask updateProjectTask(ProjectTask updated, String backlogId, String projectTaskId) {
-        ProjectTask pt = projectTaskRepository.findByProjectSequence(projectTaskId);
+    public ProjectTask updateProjectTask(ProjectTask updated, String projectIdentifier, String projectSequence) {
+        ProjectTask pt = findProjectTaskByProjectSequence(projectIdentifier, projectSequence);
         pt = updated;
         return projectTaskRepository.save(pt);
+    }
+
+    public void deleteProjectTaskByProjectSequence(String projectIdentifier, String sequence) {
+        ProjectTask projectTask = findProjectTaskByProjectSequence(projectIdentifier, sequence);
+        Backlog backlog = projectTask.getBacklog();
+        List<ProjectTask> projectTasks = backlog.getProjectTasks();
+        projectTasks.remove(projectTask);
+
+        backlogRepository.save(backlog);
+        projectTaskRepository.delete(projectTask);
     }
 }

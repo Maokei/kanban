@@ -96,4 +96,9 @@ public class BacklogControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(containsString(newSummary)));
     }
+
+    @Test
+    public void deleteProjectTask() {
+        //TODO
+    }
 }
