@@ -29,9 +29,11 @@ public class ProjectTaskService {
             projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
             projectTask.setProjectIdentifier(projectIdentifier);
             //INITIAL status when status is null
-            if (projectTask.getStatus().equals("") || projectTask.getStatus() == null) {
+            String status = Optional.ofNullable(projectTask.getStatus()).orElse("");
+            if(status.equals("")) {
                 projectTask.setStatus("TO_DO");
             }
+            //priority
             if (projectTask.getPriority() == null || projectTask.getPriority() == 0) { //form 0
                 projectTask.setPriority(3);
             }
@@ -62,5 +64,11 @@ public class ProjectTaskService {
             throw new ProjectNotFoundException("Project Task '"+ projectTaskId +"' does not exist in project: '"+ backlogId);
         }
         return projectTask;
+    }
+
+    public ProjectTask updateProjectTask(ProjectTask updated, String backlogId, String projectTaskId) {
+        ProjectTask pt = projectTaskRepository.findByProjectSequence(projectTaskId);
+        pt = updated;
+        return projectTaskRepository.save(pt);
     }
 }
