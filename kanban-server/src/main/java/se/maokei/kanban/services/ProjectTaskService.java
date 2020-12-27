@@ -9,7 +9,6 @@ import se.maokei.kanban.exceptions.ProjectNotFoundException;
 import se.maokei.kanban.repositories.BacklogRepository;
 import se.maokei.kanban.repositories.ProjectTaskRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
