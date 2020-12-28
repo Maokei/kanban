@@ -40,7 +40,7 @@ export const getProject = (pi, history) => async dispatch => {
 
 export const deleteProject = (pi) => async dispatch => {
   try {
-    const res = await axios.delete(`/api/project/${pi}`)
+    await axios.delete(`/api/project/${pi}`)
     dispatch({
       type: DELETE_PROJECT,
       payload: pi
