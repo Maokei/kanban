@@ -30,9 +30,6 @@ public class ProjectControllerTest {
     private final String URL_GET_ALL_PROJECTS = "/api/project/all";
 
     @Autowired
-    private WebApplicationContext context;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
@@ -45,11 +42,6 @@ public class ProjectControllerTest {
         project1.setDescription("This is test project1");
         project1.setProjectIdentifier("MXMX4");
         projectRepository.save(project1);
-
-        /*mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .apply(springSecurity())
-                .build();*/
     }
 
     @Test
