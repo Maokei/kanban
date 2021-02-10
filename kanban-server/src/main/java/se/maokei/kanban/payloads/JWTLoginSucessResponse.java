@@ -8,4 +8,12 @@ import lombok.Data;
 public class JWTLoginSucessResponse {
     private boolean success;
     private String token;
+
+    @Override
+    public String toString() {
+        return "JWTLoginSucessReponse{" +
+                "success=" + success +
+                ", token='" + token + '\'' +
+                '}';
+    }
 }
