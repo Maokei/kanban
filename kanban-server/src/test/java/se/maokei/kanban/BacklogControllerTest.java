@@ -18,13 +18,16 @@ import org.springframework.web.context.WebApplicationContext;
 import se.maokei.kanban.domain.Backlog;
 import se.maokei.kanban.domain.Project;
 import se.maokei.kanban.domain.ProjectTask;
+import se.maokei.kanban.domain.User;
 import se.maokei.kanban.repositories.BacklogRepository;
 import se.maokei.kanban.repositories.ProjectRepository;
+import se.maokei.kanban.repositories.UserRepository;
 import se.maokei.kanban.services.ProjectService;
 import se.maokei.kanban.services.ProjectTaskService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
@@ -56,6 +59,8 @@ public class BacklogControllerTest {
     @Autowired
     ProjectTaskService projectTaskService;
     @Autowired
+    UserRepository userRepositor;
+    @Autowired
     private MockMvc mockMvc;
 
     @Before
@@ -81,13 +86,21 @@ public class BacklogControllerTest {
         taskList.add(projectTask);
         updBacklog.setProjectTasks(taskList);
 
+        User user = new User();
+        user.setUsername("tester");
+        user.setPassword("password1");
+        user.setEmail("user@gmail.com");
+        user.setName("John Doe");
+        userRepositor.save(user);
+
         //Persist clown test project
-        projectService.saveOrUpdateProject(project);
+        projectService.saveOrUpdateProject(project, "tester");
         projectTaskService.addProjectTask(updProjectIdentifier, projectTask);
     }
 
     @After
     public void afterAllTests() {
+        userRepositor.deleteAll();
         projectRepository.deleteAll();
     }
 

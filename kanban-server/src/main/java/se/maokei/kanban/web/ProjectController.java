@@ -10,6 +10,7 @@ import se.maokei.kanban.services.MapValidationErrorService;
 import se.maokei.kanban.services.ProjectService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @CrossOrigin
 @RestController
@@ -22,11 +23,13 @@ public class ProjectController {
     private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("")
-    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
+    public ResponseEntity<?> createNewProject(
+            @Valid @RequestBody Project project, BindingResult result, Principal principal
+    ) {
         ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationErrorService(result);
         if(errorMap != null) return errorMap;
 
-        Project newProject = this.projectService.saveOrUpdateProject(project);
+        Project newProject = this.projectService.saveOrUpdateProject(project, principal.getName());
         return new ResponseEntity<Project>(newProject, HttpStatus.CREATED);
     }
 

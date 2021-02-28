@@ -1,12 +1,16 @@
 package se.maokei.kanban.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import se.maokei.kanban.domain.Backlog;
 import se.maokei.kanban.domain.Project;
+import se.maokei.kanban.domain.User;
 import se.maokei.kanban.exceptions.ProjectIdException;
+import se.maokei.kanban.exceptions.UserNotFoundException;
 import se.maokei.kanban.repositories.BacklogRepository;
 import se.maokei.kanban.repositories.ProjectRepository;
+import se.maokei.kanban.repositories.UserRepository;
 
 import java.util.Optional;
 
@@ -19,9 +23,18 @@ public class ProjectService {
     private ProjectRepository projectRepository;
     @Autowired
     private BacklogRepository backlogRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    public Project saveOrUpdateProject(Project project) {
+    public Project saveOrUpdateProject(Project project, String username) {
         try {
+            Optional<User> userOpt = userRepository.findByUsername(username);
+            if(!userOpt.isPresent()) {
+                throw new UserNotFoundException("User with username: " + username + " not found.");
+            }
+            User user = userOpt.get();
+            project.setUser(user);
+            project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
 
             if(project.getId() == null) {
