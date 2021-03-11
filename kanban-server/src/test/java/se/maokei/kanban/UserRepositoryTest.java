@@ -42,8 +42,10 @@ public class UserRepositoryTest {
 
         userRepository.save(user);
         Optional<User> userOpt = userRepository.findByEmail(email);
-        userOpt.ifPresentOrElse((usr) -> {
-            assertEquals("Users ID are not equal", user.getId(), usr.getId());
-        }, () -> fail("Did not get a user back to test against"));
+        //noinspection ResultOfMethodCallIgnored
+        userOpt.ifPresentOrElse(
+                (usr) -> assertEquals("Users email are not equal", email, usr.getEmail()),
+                () -> fail("Did not get a user back to test against")
+        );
     }
 }
