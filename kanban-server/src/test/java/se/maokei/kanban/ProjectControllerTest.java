@@ -11,13 +11,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 import se.maokei.kanban.domain.Project;
 import se.maokei.kanban.repositories.ProjectRepository;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +28,6 @@ public class ProjectControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     ProjectRepository projectRepository;
 
@@ -41,11 +37,13 @@ public class ProjectControllerTest {
         project1.setName("Test project");
         project1.setDescription("This is test project1");
         project1.setProjectIdentifier("MXMX4");
+        project1.setProjectLeader("user1");
+
         projectRepository.save(project1);
     }
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser(username = "user1")
     public void checkForTestProject() throws Exception {
         mockMvc.perform(get(URL_GET_ALL_PROJECTS)
                 .contentType(MediaType.APPLICATION_JSON)

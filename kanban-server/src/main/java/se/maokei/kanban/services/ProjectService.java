@@ -7,6 +7,7 @@ import se.maokei.kanban.domain.Backlog;
 import se.maokei.kanban.domain.Project;
 import se.maokei.kanban.domain.User;
 import se.maokei.kanban.exceptions.ProjectIdException;
+import se.maokei.kanban.exceptions.ProjectNotFoundException;
 import se.maokei.kanban.exceptions.UserNotFoundException;
 import se.maokei.kanban.repositories.BacklogRepository;
 import se.maokei.kanban.repositories.ProjectRepository;
@@ -60,24 +61,28 @@ public class ProjectService {
     }
 
 
-    public Project findProjectByIdentifier(String projectId) {
+    public Project findProjectByIdentifier(String projectId, String username) {
         Optional<Project> oProject = Optional.ofNullable(
                 projectRepository.findByProjectIdentifier(projectId.toUpperCase())
         );
         oProject.orElseThrow(
                 () -> new ProjectIdException("No project found with identifier: " + projectId.toUpperCase())
         );
+
+        if(!oProject.get().getProjectLeader().equals(username)){
+            throw new ProjectNotFoundException("Project not found in your account");
+        }
+
         return oProject.get();
     }
 
-    public Iterable<Project> findAllProjects() {
-        return this.projectRepository.findAll();
+    public Iterable<Project> findAllProjects(String username) {
+        return projectRepository.findAllByProjectLeader(username);
     }
 
-    public void deleteProjectByIdentifier(String projectId) {
+    public void deleteProjectByIdentifier(String projectId, String username) {
         try {
-            Project project = findProjectByIdentifier(projectId);
-            projectRepository.delete(project);
+            projectRepository.delete(findProjectByIdentifier(projectId, username));
         }catch(ProjectIdException e) {
             throw new ProjectIdException("Unable to delete project with id '" + projectId + "' ,project does not exist");
         }

@@ -31,7 +31,6 @@ public class Project {
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated;
 
-
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
     @JsonIgnore
     private Backlog backlog;
