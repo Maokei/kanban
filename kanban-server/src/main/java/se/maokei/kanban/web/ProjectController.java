@@ -48,7 +48,6 @@ public class ProjectController {
 
     @GetMapping("/all")
     public Iterable<Project> getAllProjects(Principal principal) {
-        System.out.println(principal);
         return this.projectService.findAllProjects(principal.getName());
     }
 
