@@ -47,10 +47,8 @@ public class ProjectTaskService {
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
     }
 
-    public ProjectTask findProjectTaskByProjectSequence(String projectIdentifier, String projectSequence) {
-
-        Optional.ofNullable(backlogRepository.findByProjectIdentifier(projectIdentifier))
-                .orElseThrow(() -> new ProjectNotFoundException("Project with identifier: '" + projectIdentifier + "' does not exist"));
+    public ProjectTask findProjectTaskByProjectSequence(String projectIdentifier, String projectSequence, String username) {
+        projectService.findProjectByIdentifier(projectIdentifier, username);
 
         ProjectTask projectTask = Optional.ofNullable(projectTaskRepository.findByProjectSequence(projectSequence))
                 .orElseThrow(() -> new ProjectNotFoundException("Project Task '" + projectSequence + "' not found"));
@@ -61,14 +59,14 @@ public class ProjectTaskService {
         return projectTask;
     }
 
-    public ProjectTask updateProjectTask(ProjectTask updated, String projectIdentifier, String projectSequence) {
-        ProjectTask pt = findProjectTaskByProjectSequence(projectIdentifier, projectSequence);
+    public ProjectTask updateProjectTask(ProjectTask updated, String projectIdentifier, String projectSequence, String username) {
+        ProjectTask pt = findProjectTaskByProjectSequence(projectIdentifier, projectSequence, username);
         pt = updated;
         return projectTaskRepository.save(pt);
     }
 
-    public void deleteProjectTaskByProjectSequence(String projectIdentifier, String sequence) {
-        ProjectTask projectTask = findProjectTaskByProjectSequence(projectIdentifier, sequence);
+    public void deleteProjectTaskByProjectSequence(String projectIdentifier, String sequence, String username) {
+        ProjectTask projectTask = findProjectTaskByProjectSequence(projectIdentifier, sequence, username);
         projectTaskRepository.delete(projectTask);
     }
 }

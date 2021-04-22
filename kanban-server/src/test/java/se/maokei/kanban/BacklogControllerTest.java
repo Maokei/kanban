@@ -105,7 +105,7 @@ public class BacklogControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user1", password = "pwd", roles = "USER")
+    @WithMockUser(username = "tester", password = "password1", roles = "USER")
     public void updateProjectTask() throws Exception {
         String newSummary = "This clown task has been updated!";
         Project pro = projectRepository.findByProjectIdentifier(updProjectIdentifier);

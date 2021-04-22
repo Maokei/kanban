@@ -41,8 +41,8 @@ public class BacklogController {
     }
 
     @GetMapping("/{backlogId}/{projectTaskId}")
-    public ResponseEntity<?> getProjectTask(@PathVariable String backlogId, @PathVariable String projectTaskId) {
-        ProjectTask projectTask = projectTaskService.findProjectTaskByProjectSequence(backlogId, projectTaskId);
+    public ResponseEntity<?> getProjectTask(@PathVariable String backlogId, @PathVariable String projectTaskId, Principal principal) {
+        ProjectTask projectTask = projectTaskService.findProjectTaskByProjectSequence(backlogId, projectTaskId, principal.getName());
         return new ResponseEntity<>(projectTask, HttpStatus.OK);
     }
 
@@ -51,7 +51,8 @@ public class BacklogController {
             @Valid @RequestBody ProjectTask updatedProjectTask,
             BindingResult bindingResult,
             @PathVariable String backlogId,
-            @PathVariable String projectTaskId
+            @PathVariable String projectTaskId,
+            Principal principal
     ) {
         ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationErrorService(bindingResult);
         if (errorMap != null) return errorMap;
@@ -59,14 +60,15 @@ public class BacklogController {
         ProjectTask updatedTask = projectTaskService.updateProjectTask(
                 updatedProjectTask,
                 backlogId,
-                projectTaskId
+                projectTaskId,
+                principal.getName()
         );
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
 
     @DeleteMapping("/{backlog_pi}/{projectTask_seq}")
-    public ResponseEntity<?> deleteProjectTask(@PathVariable String backlog_pi, @PathVariable String projectTask_seq) {
-        projectTaskService.deleteProjectTaskByProjectSequence(backlog_pi, projectTask_seq);
+    public ResponseEntity<?> deleteProjectTask(@PathVariable String backlog_pi, @PathVariable String projectTask_seq, Principal principal) {
+        projectTaskService.deleteProjectTaskByProjectSequence(backlog_pi, projectTask_seq, principal.getName());
 
         return new ResponseEntity<String>("Project Task '" + projectTask_seq + "' was deleted successfully", HttpStatus.OK);
     }
