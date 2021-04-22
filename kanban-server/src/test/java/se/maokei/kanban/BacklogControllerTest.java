@@ -27,7 +27,6 @@ import se.maokei.kanban.services.ProjectTaskService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertEquals;
@@ -94,14 +93,15 @@ public class BacklogControllerTest {
         userRepositor.save(user);
 
         //Persist clown test project
-        projectService.saveOrUpdateProject(project, "tester");
-        projectTaskService.addProjectTask(updProjectIdentifier, projectTask);
+        projectService.saveOrUpdateProject(project, user.getUsername());
+        projectTaskService.addProjectTask(updProjectIdentifier, projectTask, user.getUsername());
     }
 
     @After
-    public void afterAllTests() {
+    public void tearDown() {
         userRepositor.deleteAll();
         projectRepository.deleteAll();
+        backlogRepository.deleteAll();
     }
 
     @Test

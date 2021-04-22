@@ -40,7 +40,7 @@ public class ProjectService {
 
         try {
             Optional<User> userOpt = userRepository.findByUsername(username);
-            if(!userOpt.isPresent()) {
+            if(userOpt.isEmpty()) {
                 throw new UserNotFoundException("User with username: " + username + " not found.");
             }
             User user = userOpt.get();
@@ -62,6 +62,8 @@ public class ProjectService {
             }
 
             return projectRepository.save(project);
+        } catch(UserNotFoundException e) {
+            throw e;
         } catch(Exception e) {
             throw new ProjectIdException("Project ID '" +
                     project.getProjectIdentifier().toUpperCase() +
