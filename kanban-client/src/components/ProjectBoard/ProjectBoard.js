@@ -33,10 +33,17 @@ class ProjectBoard extends Component {
 
     const boardAlgorithm = (errors, project_tasks) => {
       if (project_tasks.length < 1) {
+        //Project identifier b
         if (errors.projectNotFound) {
           return (
             <div className="alert alert-danger text-center" role="alert">
               {errors.projectNotFound}
+            </div>
+          );
+        } else if (errors.projectIdentifier) {
+          return (
+            <div className="alert alert-danger text-center" role="alert">
+              {errors.projectIdentifier}
             </div>
           );
         } else {
