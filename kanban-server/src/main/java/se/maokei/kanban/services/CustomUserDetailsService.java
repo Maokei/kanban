@@ -1,5 +1,6 @@
 package se.maokei.kanban.services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,8 +13,8 @@ import se.maokei.kanban.repositories.UserRepository;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
     private UserRepository userRepository;
 
     @Override

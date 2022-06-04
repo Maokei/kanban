@@ -1,32 +1,31 @@
 package se.maokei.kanban;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import se.maokei.kanban.domain.User;
 import se.maokei.kanban.repositories.UserRepository;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Fail.fail;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Before
-    public void setup() {
+    @BeforeAll
+    public static void setup() {
 
     }
 
-    @After
+    @AfterAll
     public void afterAllTests() {
         userRepository.deleteAll();
     }
@@ -42,7 +41,7 @@ public class UserRepositoryTest {
 
         userRepository.save(user);
         Optional<User> userOpt = userRepository.findByEmail(email);
-        //noinspection ResultOfMethodCallIgnored
+
         userOpt.ifPresentOrElse(
                 (usr) -> assertEquals("Users email are not equal", email, usr.getEmail()),
                 () -> fail("Did not get a user back to test against")

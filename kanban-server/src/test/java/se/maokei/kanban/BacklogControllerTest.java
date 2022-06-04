@@ -1,17 +1,18 @@
 package se.maokei.kanban;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -28,10 +29,9 @@ import se.maokei.kanban.services.ProjectTaskService;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -39,13 +39,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
+//@WebMvcTest(BacklogControllerTest.class)
 @AutoConfigureMockMvc(addFilters = false)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BacklogControllerTest {
     private static final String BACKLOG_BASE_URL = "/api/backlog/";
-    private static final String updProjectStr = "clown project";
-    private static final String updProjectIdentifier = "XXXX5";
-    private static final String updSequence = "CLOWN-1";
+    private static final String UPD_PROJECT_STR = "clown project";
+    private static final String UPD_PROJECT_IDENTIFIER = "XXXX5";
+    private static final String UPD_SEQUENCE = "CLOWN-1";
 
     @Autowired
     private WebApplicationContext context;
@@ -58,11 +59,11 @@ public class BacklogControllerTest {
     @Autowired
     ProjectTaskService projectTaskService;
     @Autowired
-    UserRepository userRepositor;
-    @Autowired
+    UserRepository userRepository;
+
     private MockMvc mockMvc;
 
-    @Before
+    @BeforeAll
     public void setup() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
@@ -70,16 +71,18 @@ public class BacklogControllerTest {
                 .build();
 
         Project project = new Project();
-        project.setName(updProjectStr);
+        project.setName(UPD_PROJECT_STR);
         project.setDescription("This is test project");
-        project.setProjectIdentifier(updProjectIdentifier);
+        project.setProjectIdentifier(UPD_PROJECT_IDENTIFIER);
+
         //Backlog and test projectTask
         Backlog updBacklog = new Backlog();
         ProjectTask projectTask = new ProjectTask();
-        projectTask.setProjectSequence(updSequence);
+        projectTask.setProjectSequence(UPD_SEQUENCE);
         projectTask.setSummary("Clown task one");
         projectTask.setPriority(3);
-        projectTask.setProjectIdentifier(updProjectIdentifier);
+        projectTask.setProjectIdentifier(UPD_PROJECT_IDENTIFIER);
+
         //Add backlog and task
         List<ProjectTask> taskList = new ArrayList<>();
         taskList.add(projectTask);
@@ -90,16 +93,16 @@ public class BacklogControllerTest {
         user.setPassword("password1");
         user.setEmail("user@gmail.com");
         user.setName("John Doe");
-        userRepositor.save(user);
+        userRepository.save(user);
 
         //Persist clown test project
         projectService.saveOrUpdateProject(project, user.getUsername());
-        projectTaskService.addProjectTask(updProjectIdentifier, projectTask, user.getUsername());
+        projectTaskService.addProjectTask(UPD_PROJECT_IDENTIFIER, projectTask, user.getUsername());
     }
 
-    @After
+    @AfterAll
     public void tearDown() {
-        userRepositor.deleteAll();
+        userRepository.deleteAll();
         projectRepository.deleteAll();
         backlogRepository.deleteAll();
     }
@@ -108,7 +111,7 @@ public class BacklogControllerTest {
     @WithMockUser(username = "tester", password = "password1", roles = "USER")
     public void updateProjectTask() throws Exception {
         String newSummary = "This clown task has been updated!";
-        Project pro = projectRepository.findByProjectIdentifier(updProjectIdentifier);
+        Project pro = projectRepository.findByProjectIdentifier(UPD_PROJECT_IDENTIFIER);
         Backlog backlog = pro.getBacklog();
 
         List<ProjectTask> tasks = backlog.getProjectTasks();
@@ -128,10 +131,10 @@ public class BacklogControllerTest {
         //fetch and assert Project Task
         mockMvc.perform(get(BACKLOG_BASE_URL + backlog.getProjectIdentifier() + "/" + sequence))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().string(containsString(newSummary)));
+                //.andExpect(content().string(containsString(newSummary)));
+                .andExpect(content().string(newSummary));
     }
 
-    @Test
     public void deleteProjectTask() {
         //TODO
     }
