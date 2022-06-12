@@ -2,12 +2,18 @@ package se.maokei.kanban.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
+@Setter
+@Getter
+@NoArgsConstructor
 public class ProjectTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,110 +36,18 @@ public class ProjectTask {
     @Column(updatable = false)
     private String projectIdentifier;
     @JsonFormat(pattern = "yyyy-mm-dd")
-    private Date creadAt;
+    private Date createdAt;
     @JsonFormat(pattern = "yyyy-mm-dd")
-    private Date updateAt;
+    private Date updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        this.creadAt = new Date();
+        this.createdAt = new Date();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updateAt = new Date();
-    }
-
-    public void ProjectTask() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getProjectSequence() {
-        return projectSequence;
-    }
-
-    public void setProjectSequence(String projectSequence) {
-        this.projectSequence = projectSequence;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getAcceptanceCriteria() {
-        return acceptanceCriteria;
-    }
-
-    public void setAcceptanceCriteria(String acceptanceCriteria) {
-        this.acceptanceCriteria = acceptanceCriteria;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
-    }
-
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public Backlog getBacklog() {
-        return backlog;
-    }
-
-    public void setBacklog(Backlog backlog) {
-        this.backlog = backlog;
-    }
-
-    public String getProjectIdentifier() {
-        return projectIdentifier;
-    }
-
-    public void setProjectIdentifier(String projectIdentifier) {
-        this.projectIdentifier = projectIdentifier;
-    }
-
-    public Date getCreadAt() {
-        return creadAt;
-    }
-
-    public void setCreadAt(Date creadAt) {
-        this.creadAt = creadAt;
-    }
-
-    public Date getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
+        this.updatedAt = new Date();
     }
 
     @Override
@@ -147,8 +61,8 @@ public class ProjectTask {
                 ", priority=" + priority +
                 ", dueDate=" + dueDate +
                 ", projectIdentifier='" + projectIdentifier + '\'' +
-                ", creadAt=" + creadAt +
-                ", updateAt=" + updateAt +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

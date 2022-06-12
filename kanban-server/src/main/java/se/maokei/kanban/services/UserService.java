@@ -1,17 +1,16 @@
 package se.maokei.kanban.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.maokei.kanban.domain.User;
 import se.maokei.kanban.exceptions.UsernameAlreadyExistsException;
 import se.maokei.kanban.repositories.UserRepository;
 
+@AllArgsConstructor
 @Service
 public class UserService {
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User saveUser (User newUser){
