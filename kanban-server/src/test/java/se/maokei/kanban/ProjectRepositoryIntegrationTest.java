@@ -1,25 +1,21 @@
 package se.maokei.kanban;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import se.maokei.kanban.domain.Project;
 import se.maokei.kanban.repositories.ProjectRepository;
 import se.maokei.kanban.services.ProjectService;
 
 import javax.persistence.EntityManager;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(SpringRunner.class)
 @DataJpaTest
-@ContextConfiguration(classes = {KanbanApplication.class})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ProjectRepositoryIntegrationTest {
     @Autowired
     EntityManager entityManager;
@@ -27,6 +23,10 @@ public class ProjectRepositoryIntegrationTest {
     @Autowired
     ProjectRepository projectRepository;
 
+    @BeforeAll
+    public void setup() throws Exception {
+        this.projectService = new ProjectService();
+    }
     @Test
     public void saveProject() {
         Project project = new Project();
@@ -34,7 +34,7 @@ public class ProjectRepositoryIntegrationTest {
         project.setProjectIdentifier("TTTT");
         project.setName("A project");
         this.projectRepository.save(project);
-        Assert.assertNotNull(projectRepository.findAll());
+        assertNotNull(projectRepository.findAll());
         projectRepository.deleteAll();
     }
 
@@ -48,10 +48,5 @@ public class ProjectRepositoryIntegrationTest {
         projectRepository.save(newProject);
 
         assertEquals(projectRepository.findByName(projectName).getName(), projectName);
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        this.projectService = new ProjectService();
     }
 }

@@ -7,7 +7,6 @@ import se.maokei.kanban.domain.User;
 
 @Component
 public class UserValidator implements Validator {
-
     @Override
     public boolean supports(Class<?> aClass) {
         return User.class.equals(aClass);
@@ -15,7 +14,6 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object object, Errors errors) {
-
         User user = (User) object;
 
         if(user.getPassword().length() < 6){
@@ -26,10 +24,5 @@ public class UserValidator implements Validator {
             errors.rejectValue("confirmPassword","Match", "Passwords must match");
 
         }
-
-        //confirmPassword
-
-
-
     }
 }

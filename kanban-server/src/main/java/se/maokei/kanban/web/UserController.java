@@ -1,6 +1,6 @@
 package se.maokei.kanban.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,22 +24,14 @@ import javax.validation.Valid;
 
 import static se.maokei.kanban.security.Constants.TOKEN_PREFIX;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    @Autowired
     private MapValidationErrorService mapValidationErrorService;
-
-    @Autowired
     private UserService userService;
-
-    @Autowired
     private UserValidator userValidator;
-
-    @Autowired
     private JwtTokenProvider tokenProvider;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
@@ -60,8 +52,8 @@ public class UserController {
         return ResponseEntity.ok(new JWTLoginSucessResponse(true, jwt));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
+    @PostMapping("/register")//@Valid
+    public ResponseEntity<?> registerUser(@RequestBody User user, BindingResult result) {
         // Validate passwords match
         userValidator.validate(user, result);
 

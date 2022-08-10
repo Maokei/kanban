@@ -2,33 +2,36 @@ package se.maokei.kanban.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @Entity
+@Table(name="users") //H2 workaround, keyword conflict
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Email(message = "Username should to be an email")
-    @NotBlank
-    private String email;
-    @NotBlank(message = "username is required")
+    @NotBlank(message = "Email is required")
     @Column(unique = true)
+    private String email;
+    @NotBlank(message = "Username is required")
+    @Size(min = 4, max = 20, message = "Username 4 to 20 characters")
     private String username;
     @NotBlank(message = "Please enter your full name")
     private String name;
@@ -59,12 +62,6 @@ public class User implements UserDetails {
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
-    }
-
-    @Override
-    @JsonIgnore
-    public String getUsername() {
-        return username;
     }
 
     @Override
