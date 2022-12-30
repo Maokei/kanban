@@ -1,5 +1,5 @@
 #### Stage 1: Build the application
-FROM adoptopenjdk/maven-openjdk11 as build
+FROM maven:3.8.6-eclipse-temurin-17-focal as build
 LABEL stage=builder
 
 # Set the current working directory inside the image
@@ -21,7 +21,7 @@ RUN mvn package -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 #### Stage 2: A minimal docker image with command to run the app
-FROM adoptopenjdk/openjdk11:x86_64-alpine-jre11u-nightly
+FROM eclipse-temurin:17-jre-alpine
 
 ARG DEPENDENCY=/app/target/dependency
 
