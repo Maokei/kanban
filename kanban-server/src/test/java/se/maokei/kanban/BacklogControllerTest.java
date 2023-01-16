@@ -33,8 +33,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -135,7 +134,15 @@ public class BacklogControllerTest {
                 .andExpect(content().string(containsString(newSummary)));
     }
 
-    public void deleteProjectTask() {
-        //TODO
+    @Test
+    @WithMockUser(username = "tester", password = "password1", roles = "USER")
+    public void deleteProjectTask() throws Exception {
+        Project pro = projectRepository.findByProjectIdentifier(UPD_PROJECT_IDENTIFIER);
+        Backlog backlog = pro.getBacklog();
+        List<ProjectTask> tasks = backlog.getProjectTasks();
+        ProjectTask pt = tasks.get(0);
+        String sequence = pt.getProjectSequence();
+        mockMvc.perform(delete(BACKLOG_BASE_URL + backlog.getProjectIdentifier() + "/" + sequence))
+                .andExpect(status().isOk());
     }
 }
