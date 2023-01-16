@@ -43,7 +43,7 @@ public class UserRepositoryTest {
         Optional<User> userOpt = userRepository.findByEmail(email);
 
         userOpt.ifPresentOrElse(
-                (usr) -> assertEquals("Users email are not equal", email, usr.getEmail()),
+                (usr) -> assertEquals(email, usr.getEmail(), "Users email are not equal"),
                 () -> fail("Did not get a user back to test against")
         );
     }

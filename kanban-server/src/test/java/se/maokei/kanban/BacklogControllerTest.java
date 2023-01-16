@@ -29,6 +29,7 @@ import se.maokei.kanban.services.ProjectTaskService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
@@ -131,8 +132,7 @@ public class BacklogControllerTest {
         //fetch and assert Project Task
         mockMvc.perform(get(BACKLOG_BASE_URL + backlog.getProjectIdentifier() + "/" + sequence))
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                //.andExpect(content().string(containsString(newSummary)));
-                .andExpect(content().string(newSummary));
+                .andExpect(content().string(containsString(newSummary)));
     }
 
     public void deleteProjectTask() {
