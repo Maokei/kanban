@@ -1,6 +1,6 @@
 package se.maokei.kanban.security;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +25,7 @@ import static se.maokei.kanban.security.Constants.SIGN_UP_URLS;
         jsr250Enabled = true, //Enables @RolesAllowed("ROLE")
         prePostEnabled = true //More complex expression based access control syntax PreAllowed PostAuthorize
 )
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig { //extends WebSecurityConfigurerAdapter
     private final JwtAuthEntryPoint unauthorizedHandler;
 
