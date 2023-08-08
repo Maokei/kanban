@@ -5,7 +5,7 @@
 
 ### Building docker image:
 ```
-docker build -t myimage:1.0 .
+docker build -t kanban-server:latest .
 
 docker run --rm -it $(docker build -q .)
 
