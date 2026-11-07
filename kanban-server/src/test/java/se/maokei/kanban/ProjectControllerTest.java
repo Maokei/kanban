@@ -1,15 +1,13 @@
 package se.maokei.kanban;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import se.maokei.kanban.domain.Project;
 import se.maokei.kanban.repositories.ProjectRepository;
@@ -19,11 +17,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ActiveProfiles("test")
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class ProjectControllerTest {
+public class ProjectControllerTest extends AbstractContainerBaseTest {
     private final String URL_GET_ALL_PROJECTS = "/api/project/all";
 
     @Autowired
@@ -31,7 +27,7 @@ public class ProjectControllerTest {
     @Autowired
     ProjectRepository projectRepository;
 
-    @Before
+    @BeforeEach
     public void setup() {
         Project project1 = new Project();
         project1.setName("Test project");
@@ -40,6 +36,11 @@ public class ProjectControllerTest {
         project1.setProjectLeader("user1");
 
         projectRepository.save(project1);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        projectRepository.deleteAll();
     }
 
     @Test

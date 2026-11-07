@@ -1,17 +1,14 @@
 package se.maokei.kanban;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -29,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -37,11 +34,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ActiveProfiles("test")
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc(addFilters = false)
-public class BacklogControllerTest {
+public class BacklogControllerTest extends AbstractContainerBaseTest {
     private static final String BACKLOG_BASE_URL = "/api/backlog/";
     private static final String updProjectStr = "clown project";
     private static final String updProjectIdentifier = "XXXX5";
@@ -62,7 +57,7 @@ public class BacklogControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Before
+    @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(context)
@@ -97,7 +92,7 @@ public class BacklogControllerTest {
         projectTaskService.addProjectTask(updProjectIdentifier, projectTask, user.getUsername());
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         userRepositor.deleteAll();
         projectRepository.deleteAll();
@@ -112,7 +107,7 @@ public class BacklogControllerTest {
         Backlog backlog = pro.getBacklog();
 
         List<ProjectTask> tasks = backlog.getProjectTasks();
-        assertEquals("Should only be one task in the clown project", 1, tasks.size());
+        assertEquals(1, tasks.size(), "Should only be one task in the clown project");
         ProjectTask pt = tasks.get(0);
         String sequence = pt.getProjectSequence();
 
