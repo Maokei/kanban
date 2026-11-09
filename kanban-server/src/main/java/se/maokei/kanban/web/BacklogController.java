@@ -9,7 +9,7 @@ import se.maokei.kanban.domain.ProjectTask;
 import se.maokei.kanban.services.MapValidationErrorService;
 import se.maokei.kanban.services.ProjectTaskService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.security.Principal;
 
 @RestController

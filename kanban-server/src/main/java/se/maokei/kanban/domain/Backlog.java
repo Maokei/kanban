@@ -2,10 +2,13 @@ package se.maokei.kanban.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 @Entity
 public class Backlog {
     @Id
@@ -26,40 +29,20 @@ public class Backlog {
 
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getPTSequence() {
-        return PTSequence;
     }
 
     public void setPTSequence(Integer PTSequence) {
         this.PTSequence = PTSequence;
     }
 
-    public String getProjectIdentifier() {
-        return projectIdentifier;
-    }
-
     public void setProjectIdentifier(String projectIdentifier) {
         this.projectIdentifier = projectIdentifier;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
     public void setProject(Project project) {
         this.project = project;
-    }
-
-    public List<ProjectTask> getProjectTasks() {
-        return projectTasks;
     }
 
     public void setProjectTasks(List<ProjectTask> projectTasks) {

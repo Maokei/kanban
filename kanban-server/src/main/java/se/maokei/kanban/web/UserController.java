@@ -20,7 +20,7 @@ import se.maokei.kanban.services.MapValidationErrorService;
 import se.maokei.kanban.services.UserService;
 import se.maokei.kanban.validator.UserValidator;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import static se.maokei.kanban.security.Constants.TOKEN_PREFIX;
 
