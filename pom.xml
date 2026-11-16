@@ -11,7 +11,7 @@
 
     <properties>
         <frontend-maven-plugin.version> 1.10.3</frontend-maven-plugin.version>
-        <node.version>v14.15.0</node.version>
+        <node.version>v26.13.0</node.version>
         <yarn.version>v1.22.5</yarn.version>
         <java.version>11</java.version>
     </properties>
