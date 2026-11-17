@@ -18,7 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import se.maokei.kanban.services.CustomUserDetailsService;
 
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 import static se.maokei.kanban.security.Constants.H2_URL;
 import static se.maokei.kanban.security.Constants.SIGN_UP_URLS;
 
@@ -77,17 +76,17 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)) // To enable H2 Database
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                antMatcher("/"),
-                                antMatcher("/favicon.ico"),
-                                antMatcher("/**/*.png"),
-                                antMatcher("/**/*.gif"),
-                                antMatcher("/**/*.svg"),
-                                antMatcher("/**/*.jpg"),
-                                antMatcher("/**/*.html"),
-                                antMatcher("/**/*.css"),
-                                antMatcher("/**/*.js"),
-                                antMatcher(SIGN_UP_URLS),
-                                antMatcher(H2_URL)
+                                "/",
+                                "/favicon.ico",
+                                "/*.png",
+                                "/*.gif",
+                                "/*.svg",
+                                "/*.jpg",
+                                "/*.html",
+                                "/*.css",
+                                "/*.js",
+                                SIGN_UP_URLS,
+                                H2_URL
                         ).permitAll()
                         .anyRequest().authenticated()
                 );
