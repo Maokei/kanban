@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
 @Getter
 @Entity
 public class Backlog {
@@ -29,23 +31,4 @@ public class Backlog {
 
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setPTSequence(Integer PTSequence) {
-        this.PTSequence = PTSequence;
-    }
-
-    public void setProjectIdentifier(String projectIdentifier) {
-        this.projectIdentifier = projectIdentifier;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public void setProjectTasks(List<ProjectTask> projectTasks) {
-        this.projectTasks = projectTasks;
-    }
 }

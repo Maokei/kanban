@@ -41,12 +41,31 @@ public class Project {
 
     private String projectLeader;
 
+    private String repositoryPath;
+    private String repositoryUrl;
+    private String defaultBranch = "main";
+    @Column(length = 1024)
+    private String testCommand;
+    @Column(length = 1024)
+    private String specAgentCommand;
+    @Column(length = 1024)
+    private String coderAgentCommand;
+    @Column(length = 1024)
+    private String reviewerAgentCommand;
+    private Integer maxAgentRetries = 3;
+
     public Project() {
     }
 
     @PrePersist
     protected void onCreate() {
         this.created = new Date();
+        if (this.defaultBranch == null || this.defaultBranch.isBlank()) {
+            this.defaultBranch = "main";
+        }
+        if (this.maxAgentRetries == null) {
+            this.maxAgentRetries = 3;
+        }
     }
 
     @PreUpdate
@@ -140,5 +159,69 @@ public class Project {
 
     public void setProjectLeader(String projectLeader) {
         this.projectLeader = projectLeader;
+    }
+
+    public String getRepositoryPath() {
+        return repositoryPath;
+    }
+
+    public void setRepositoryPath(String repositoryPath) {
+        this.repositoryPath = repositoryPath;
+    }
+
+    public String getRepositoryUrl() {
+        return repositoryUrl;
+    }
+
+    public void setRepositoryUrl(String repositoryUrl) {
+        this.repositoryUrl = repositoryUrl;
+    }
+
+    public String getDefaultBranch() {
+        return defaultBranch;
+    }
+
+    public void setDefaultBranch(String defaultBranch) {
+        this.defaultBranch = defaultBranch;
+    }
+
+    public String getTestCommand() {
+        return testCommand;
+    }
+
+    public void setTestCommand(String testCommand) {
+        this.testCommand = testCommand;
+    }
+
+    public String getSpecAgentCommand() {
+        return specAgentCommand;
+    }
+
+    public void setSpecAgentCommand(String specAgentCommand) {
+        this.specAgentCommand = specAgentCommand;
+    }
+
+    public String getCoderAgentCommand() {
+        return coderAgentCommand;
+    }
+
+    public void setCoderAgentCommand(String coderAgentCommand) {
+        this.coderAgentCommand = coderAgentCommand;
+    }
+
+    public String getReviewerAgentCommand() {
+        return reviewerAgentCommand;
+    }
+
+    public void setReviewerAgentCommand(String reviewerAgentCommand) {
+        this.reviewerAgentCommand = reviewerAgentCommand;
+    }
+
+    public Integer getMaxAgentRetries() {
+        return maxAgentRetries;
+    }
+
+    public void setMaxAgentRetries(Integer maxAgentRetries) {
+        this.maxAgentRetries = maxAgentRetries;
     }
 }
